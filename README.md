@@ -39,7 +39,10 @@ Replace **`/path/to/linux-speech-to-text/`** with the actual path to the cloned 
 chmod +x start_recording.sh stop_and_process_recording.sh
 ```
 
-### 4. Using the Speech-to-Text Functionality
+### 4. Downloading the model
+Open two consoles and `cd` to the project. Run `./start_recording.sh` in one and say something. Run `stop_and_process_recording.sh` on the second. You should see that the model is being downloaded and that after it is, you have the transcript pasted where you had the cursor (with ctrl+v). 
+
+### 5. Using the Speech-to-Text Functionality
 **Start Recording**: Press and hold F9 to start recording your speech.
 **Stop Recording and Transcribe**: Release F9 to stop recording. The audio will be transcribed to text using Whisper, and the text will be automatically pasted from the clipboard to where your cursor is located.
 
