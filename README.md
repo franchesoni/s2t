@@ -13,10 +13,11 @@ You can install `ffmpeg` `xdotool` and `xclip` using your distribution's package
 
 ## Setup
 ### 1. Clone the Repository
-Clone this repository to your local machine:
+Clone this repository to your local machine's home:
 
 ```
-git clone https://github.com/franchesoni/linux-speech-to-text.git
+cd
+git clone https://github.com/franchesoni/s2t.git
 cd linux-speech-to-text
 ```
 ### 2. Configure Keybindings
@@ -25,13 +26,13 @@ cd linux-speech-to-text
 **Set Up `xbindkeys`**: Install **`xbindkeys`** and create a **`.xbindkeysrc`** in your home directory with the following content:
 
 ```
-"/path/to/linux-speech-to-text/start_recording.sh"
+"/home/user/start_recording.sh"
     m:0x0 + c:75
 
-"/path/to/linux-speech-to-text/stop_and_process_recording.sh"
+"/home/user/s2t/stop_and_process_recording.sh"
     Release + m:0x0 + c:75
 ```
-Replace **`/path/to/linux-speech-to-text/`** with the actual path to the cloned repository.
+Replace **`/home/user/s2t/`** with the actual path to the cloned repository (your home!).
 
 ### 3. Scripts Configuration
 **Modify the Scripts**: Ensure **`start_recording.sh`** and **`stop_and_process_recording.sh`** are executable. If necessary, modify the scripts to match your system configuration, such as the path to your Python virtual environment.
