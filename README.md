@@ -1,4 +1,4 @@
-# Linux Speech-to-Text with Whisper
+# 🗣️ ⌨️ Linux Speech-to-Text with Whisper
 This project enables speech-to-text functionality on Linux using OpenAI's Whisper. It allows users to record audio with a press of a key (F9 by default), transcribe the audio to text using Whisper, and automatically paste the transcribed text where the cursor is located. This functionality is particularly useful for quickly converting speech into text without navigating through multiple applications.
 
 ## Prerequisites
