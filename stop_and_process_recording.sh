@@ -5,7 +5,7 @@ kill $(cat $HOME/s2t/tmp/recording_pid)
 
 # Transcribe audio
 source $HOME/env_sandbox/bin/activate
-whisper $HOME/s2t/tmp/recording.wav --model tiny.en --output_dir="${HOME}/s2t/tmp/" --output_format="txt"
+whisper $HOME/s2t/tmp/recording.wav --model tiny --output_dir="${HOME}/s2t/tmp/" --output_format="txt"
 deactivate
 
 # Temporary file for transcription
