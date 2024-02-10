@@ -6,9 +6,10 @@ Before you start, ensure you have the following installed on your Linux system:
 
 **`ffmpeg`** for audio recording.
 **`xclip`** for clipboard management.
+**`xdotool`** for automated paste.
 **`whisper`** for audio transcription.
 A Python virtual environment with Whisper installed (`$HOME/env_sandbox` in this guide, if yours is different, modify `stop_and_process_recording.sh` with yours).
-You can install ffmpeg and xclip using your distribution's package manager. For Whisper, follow the installation instructions provided by OpenAI.
+You can install `ffmpeg` `xdotool` and `xclip` using your distribution's package manager. For Whisper, follow the installation instructions provided by OpenAI.
 
 ## Setup
 ### 1. Clone the Repository

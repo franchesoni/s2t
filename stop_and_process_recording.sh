@@ -17,6 +17,12 @@ xclip -selection clipboard < $TRANSCRIPTION_FILE
 # Optional: Notify the user that transcription is complete
 notify-send "Transcription Complete" "Your speech has been transcribed and is now in the clipboard."
 
+# Ensure the clipboard has time to update
+sleep 0.1
+
+# Simulate the paste action
+xdotool key ctrl+v  # Use whichever key combination is appropriate
+
 # Clean up
 rm -rf $HOME/s2t/tmp/
 
