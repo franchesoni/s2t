@@ -26,7 +26,7 @@ cd linux-speech-to-text
 **Set Up `xbindkeys`**: Install **`xbindkeys`** and create a **`.xbindkeysrc`** in your home directory with the following content:
 
 ```
-"/home/user/start_recording.sh"
+"/home/user/s2t/start_recording.sh"
     m:0x0 + c:75
 
 "/home/user/s2t/stop_and_process_recording.sh"
