@@ -41,7 +41,7 @@ chmod +x start_recording.sh stop_and_process_recording.sh
 ```
 
 ### 4. Downloading the model
-Open two consoles and `cd` to the project. Run `./start_recording.sh` in one and say something. Run `stop_and_process_recording.sh` on the second. You should see that the model is being downloaded and that after it is, you have the transcript pasted where you had the cursor (with ctrl+v). 
+Open two consoles and `cd` to the project. Run `./start_recording.sh` in one and say something. Run `stop_and_process_recording.sh` on the second. You should see that the model is being downloaded and that after it is, you have the transcript pasted where you had the cursor (it's also available using ctrl+v). 
 
 ### 5. Using the Speech-to-Text Functionality
 **Start Recording**: Press and hold F9 to start recording your speech.
