@@ -18,7 +18,7 @@ Clone this repository to your local machine's home:
 ```
 cd
 git clone https://github.com/franchesoni/s2t.git
-cd linux-speech-to-text
+cd s2t
 ```
 ### 2. Configure Keybindings
 **Disable Key Repeat for F9**: Add **`xset -r 75`** to your **`~/.profile`** to disable key repeat for F9. Log out and log back in for the change to take effect.
