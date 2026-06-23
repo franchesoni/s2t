@@ -1,0 +1,37 @@
+{
+  "_comment": "Map spoken phrases to expansions. Case-insensitive. Variants = common mishearings.",
+
+  "_section_commands": "--- ALE / project commands ---",
+  "spin up intellimass": "spin up intellimass",
+  "spin up intel amass": "spin up intellimass",
+  "spin up intellimess": "spin up intellimass",
+  "spin up intel mess": "spin up intellimass",
+  "spin up intel mass": "spin up intellimass",
+  "spin up ale": ".spin up ale",
+  "spin down": "spin down",
+  "Reload whisper phrases": "cd ~/s2t && python3 -c 'import json; d=json.load(open(\"phrases.json\")); print(len([k for k in d if not k.startswith(\"_\")]), \"phrases loaded\")' && cd -",
+  "It's been up in Hellimaz.": "spin up intellimass",
+  "This beautiful mass.": "spin up intellimass",
+   "Spin up and tell em ass": "spin up intellimass",
+   "Spin up and tell a mess.": "spin up intellimass",
+   "Spin up until I miss": "spin up intellimass",
+   "Spin up HC video.": "spin up hcvideo",
+   "Spin up HC video": "spin up hcvideo",
+   "Spin up headwaters.": "spin up head-waters",
+   " It's been up headwaters.": "spin up head-waters",
+   "Spin up headwaters": "spin up head-waters",
+   
+
+  "_section_prefixes": "--- Common prompt prefixes ---",
+  "ok robot": "ok robot",
+  "direct": "--direct",
+
+  "_section_noise": "--- Suppress known hallucination garbage (set to empty string) ---",
+  "thanks for watching": "",
+  "thank you for watching": "",
+  "thank you.": "",
+  "you": "",
+  "the": "",
+  "♪": "",
+  "...": ""
+}
