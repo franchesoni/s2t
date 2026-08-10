@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Tablet Keys
+Comment=Touch buttons for F2, F3, F4, and F9
+Exec=/home/franchesoni/local/code/s2t/tablet_keys/tablet_keys.sh
+Icon=input-keyboard
+Terminal=false
+Categories=Utility;
+StartupNotify=false

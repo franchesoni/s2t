@@ -1,0 +1,7 @@
+{
+  "name": "Tablet Keys",
+  "description": "Top-panel touch buttons for F2, F3, F4, F9, Ctrl+C, Esc, Tab, slash, and Enter.",
+  "uuid": "tablet-keys@franchesoni",
+  "shell-version": ["50"],
+  "version": 1
+}

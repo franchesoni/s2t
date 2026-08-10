@@ -1,0 +1,19 @@
+[project]
+name = "s2t"
+version = "0.1.0"
+description = "Local speech-to-text scripts using Whisper."
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "openai-whisper",
+  "torch",
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

@@ -1,0 +1,26 @@
+.tablet-keys-panel {
+  spacing: 2px;
+}
+
+.tablet-keys-box {
+  spacing: 3px;
+}
+
+.tablet-key-button {
+  min-width: 34px;
+  min-height: 26px;
+  padding: 2px 7px;
+  margin: 0 1px;
+  border-radius: 4px;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.tablet-key-button:hover,
+.tablet-key-button:active {
+  background-color: #e8eaed;
+  color: #000000;
+}

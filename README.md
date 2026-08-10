@@ -1,58 +1,100 @@
-# 🗣️ ⌨️ Linux Speech-to-Text with Whisper
-This project enables speech-to-text functionality on Linux using OpenAI's Whisper. It allows users to record audio with a press of a key (F9 by default), transcribe the audio to text using Whisper, and automatically paste the transcribed text where the cursor is located. This functionality is particularly useful for quickly converting speech into text without navigating through multiple applications.
+# Linux Speech-to-Text with Whisper
+
+This project records microphone audio, transcribes it locally with OpenAI Whisper, and copies the result to the clipboard.
+
+This checkout has been updated for GNOME on Wayland and uses `uv` to manage the Python/Whisper environment.
 
 ## Prerequisites
-Before you start, ensure you have the following installed on your Linux system:
 
-**`ffmpeg`** for audio recording.
-**`xclip`** for clipboard management.
-**`xdotool`** for automated paste.
-**`whisper`** for audio transcription.
-A Python virtual environment with Whisper installed (`$HOME/env_sandbox` in this guide, if yours is different, modify `stop_and_process_recording.sh` with yours).
-You can install `ffmpeg` `xdotool` and `xclip` using your distribution's package manager. For Whisper, follow the installation instructions provided by OpenAI.
+Install the system tools:
+
+```bash
+sudo apt update
+sudo apt install ffmpeg wl-clipboard
+```
+
+Install `uv` if it is not already available:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+The scripts also work if `uv` is installed at `$HOME/.local/bin/uv`, even when that directory is not on `PATH`.
 
 ## Setup
-### 1. Clone the Repository
-Clone this repository to your local machine's home:
 
-```
-cd
-git clone https://github.com/franchesoni/s2t.git
-cd linux-speech-to-text
-```
-### 2. Configure Keybindings
-**Disable Key Repeat for F9**: Add **`xset -r 75`** to your **`~/.profile`** to disable key repeat for F9. Log out and log back in for the change to take effect.
+From the repo directory:
 
-**Set Up `xbindkeys`**: Install **`xbindkeys`** and create a **`.xbindkeysrc`** in your home directory with the following content:
-
-```
-"/home/user/s2t/start_recording.sh"
-    m:0x0 + c:75
-
-"/home/user/s2t/stop_and_process_recording.sh"
-    Release + m:0x0 + c:75
-```
-Replace **`/home/user/s2t/`** with the actual path to the cloned repository (your home!).
-
-### 3. Scripts Configuration
-**Modify the Scripts**: Ensure **`start_recording.sh`** and **`stop_and_process_recording.sh`** are executable. If necessary, modify the scripts to match your system configuration, such as the path to your Python virtual environment.
-```
-chmod +x start_recording.sh stop_and_process_recording.sh
+```bash
+$HOME/.local/bin/uv sync
+chmod +x start_recording.sh stop_and_process_recording.sh toggle_recording.sh
 ```
 
-### 4. Downloading the model
-Open two consoles and `cd` to the project. Run `./start_recording.sh` in one and say something. Run `stop_and_process_recording.sh` on the second. You should see that the model is being downloaded and that after it is, you have the transcript pasted where you had the cursor (it's also available using ctrl+v). 
+`uv sync` installs Whisper into the repo-local `.venv`. The project is pinned to Python 3.12 and CPU-only PyTorch in `pyproject.toml`.
 
-### 5. Using the Speech-to-Text Functionality
-**Start Recording**: Press and hold F9 to start recording your speech.
-**Stop Recording and Transcribe**: Release F9 to stop recording. The audio will be transcribed to text using Whisper, and the text will be automatically pasted from the clipboard to where your cursor is located.
+## Test
+
+Run:
+
+```bash
+./start_recording.sh
+```
+
+Say something, then run:
+
+```bash
+./stop_and_process_recording.sh
+```
+
+The first transcription downloads the Whisper model. After transcription, the text is available on the clipboard.
+
+## GNOME Shortcut
+
+On GNOME Wayland, use a single toggle shortcut:
+
+1. Open Settings.
+2. Go to Keyboard > View and Customize Shortcuts > Custom Shortcuts.
+3. Add a shortcut named `Speech to Text`.
+4. Use this command:
+
+```bash
+/home/franchesoni/local/code/s2t/toggle_recording.sh
+```
+
+Press the shortcut once to start recording, then press it again to stop, transcribe, and copy to the clipboard.
+Tap `F9`; do not hold it down. Wait about two seconds before tapping again to stop. The script debounces repeated shortcut events, but GNOME custom shortcuts are toggle-based rather than press/release-based.
+
+Wayland does not allow the old `xdotool` automatic paste flow by default. Paste manually with `Ctrl+V` after the notification. On X11, set `S2T_AUTO_PASTE=1` if `xdotool` is installed and you want the old automatic paste behavior.
+
+## Configuration
+
+Environment variables:
+
+- `S2T_ASR_BACKEND`: `whisper` or `azure`. If omitted, Azure is selected when `FOUNDRY_API_KEY` is present; otherwise Whisper is used.
+- `FOUNDRY_API_KEY`: Azure Speech resource key. It can be stored in the ignored `.env` file.
+- `S2T_AZURE_ENDPOINT`: Azure Speech endpoint. Defaults to `https://swedencentral.stt.speech.microsoft.com`; its regional hostname is mapped to Azure's fast-transcription REST hostname.
+- `S2T_AZURE_LOCALES`: optional comma-separated locales such as `en-US,es-UY`; omitted means automatic detection.
+- `S2T_WHISPER_MODEL`: Whisper model name. Defaults to `tiny`.
+- `S2T_AUDIO_BACKEND`: ffmpeg input backend. Defaults to `pulse`.
+- `S2T_AUDIO_INPUT`: ffmpeg input name. Defaults to `default`.
+- `S2T_TMP_DIR`: temporary recording directory. Defaults to `./tmp`.
+- `UV_BIN`: explicit `uv` path if needed.
+
+To use cloud transcription with the Python toggle recorder, add this to `.env`:
+
+```dotenv
+S2T_ASR_BACKEND=azure
+FOUNDRY_API_KEY=your-key
+```
 
 ## Troubleshooting
-If the transcription does not work, ensure Whisper is correctly installed in your virtual environment and that the scripts point to the correct path of the virtual environment.
-Make sure `ffmpeg` and `xclip` are correctly installed and accessible from your PATH.
 
-## Contributions
-Contributions are welcome! If you have improvements or bug fixes, please open a pull request or issue.
+If recording fails, check `tmp/ffmpeg.log`.
 
-## Credit
-https://chat.openai.com/share/db168b73-7dfe-4467-a450-35791e48403b
+If transcription is slow, keep the default `tiny` model or try `S2T_WHISPER_MODEL=base` only if you want better accuracy and can wait longer.
+
+If the shortcut works but nothing appears in the app, check the clipboard with:
+
+```bash
+wl-paste
+```
