@@ -15,7 +15,8 @@ python3 /home/franchesoni/local/code/s2t/src/asr_recorder.py toggle
 ```
 
 Press the shortcut once to start recording. Press it again to stop recording,
-run Whisper, copy the transcript to the clipboard, and paste it with `Ctrl+V`.
+run Whisper, copy the transcript to the clipboard, paste it with `Ctrl+V`, wait
+one second, and press `Enter`.
 
 Recordings and transcripts are saved under `tmp/` by default, using names like:
 
@@ -60,3 +61,4 @@ Configuration:
 - `S2T_AUTO_PASTE=0` disables automatic paste.
 - `S2T_SHOW_TRANSCRIPT=1` also opens the final transcript window.
 - `S2T_PASTE_DELAY_SECONDS=0.15` controls the delay before sending `Ctrl+V`.
+- `S2T_SUBMIT_DELAY_SECONDS=1` controls the delay between pasting and pressing `Enter`.

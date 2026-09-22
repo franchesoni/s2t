@@ -290,6 +290,13 @@ def paste_delay_seconds() -> float:
         return 0.15
 
 
+def submit_delay_seconds() -> float:
+    try:
+        return float(os.environ.get("S2T_SUBMIT_DELAY_SECONDS", "1"))
+    except ValueError:
+        return 1.0
+
+
 def run_paste_command(cmd: list[str], env: dict[str, str] | None = None) -> bool:
     command_env = os.environ.copy()
     if env:
@@ -330,6 +337,29 @@ def paste_from_clipboard() -> bool:
         return run_paste_command(ydotool_cmd, {"YDOTOOL_SOCKET": "/tmp/.ydotool_socket"})
 
     print("asr-recorder: no paste tool found. Install ydotool for GNOME Wayland.", file=sys.stderr)
+    return False
+
+
+def press_enter() -> bool:
+    """Wait briefly after a successful paste, then submit it with Enter."""
+    time.sleep(submit_delay_seconds())
+    session_type = os.environ.get("XDG_SESSION_TYPE", "").lower()
+
+    if session_type == "x11" and command_exists("xdotool"):
+        return run_paste_command(["xdotool", "key", "--clearmodifiers", "Return"])
+
+    if command_exists("wtype"):
+        if run_paste_command(["wtype", "-k", "Return"]):
+            return True
+
+    if command_exists("ydotool"):
+        run_paste_command(["systemctl", "--user", "start", "ydotool.service"])
+        ydotool_cmd = ["ydotool", "key", "28:1", "28:0"]
+        if run_paste_command(ydotool_cmd):
+            return True
+        return run_paste_command(ydotool_cmd, {"YDOTOOL_SOCKET": "/tmp/.ydotool_socket"})
+
+    print("asr-recorder: no tool found to press Enter.", file=sys.stderr)
     return False
 
 
@@ -469,10 +499,13 @@ def transcribe_audio(audio_file: Path, directory: Path) -> int:
 
     copied = copy_to_clipboard(text_file)
     pasted = copied and paste_from_clipboard()
+    submitted = pasted and press_enter()
     if show_transcript_enabled():
         show_transcription(text_file)
-    if pasted:
-        notify("ASR Recorder", "Transcription pasted")
+    if submitted:
+        notify("ASR Recorder", "Transcription pasted and submitted")
+    elif pasted:
+        notify("ASR Recorder", "Transcription pasted; Enter could not be sent")
     elif copied:
         notify("ASR Recorder", "Transcription copied to clipboard")
     else:
